@@ -45,21 +45,32 @@ int main() {
     //     ptr2->Print();
     // }
     // std::cout << pool.size() << std::endl;
-
+    {
     // 使用单例模式获取 SingleObjectPool 实例
-    SingleObjectPool<A> *singlepool = SingleObjectPool<A>::instance();
+    SingleObjectPool<A> *singlepool = SingleObjectPool<A>::instance(3, 3, 1);
 
     // 初始化 SingleObjectPool
-    singlepool->initialize(3, 1, 1);
+    // singlepool->initialize(3, 1, 1);
     {
         // 获取对象
         auto obj1 = singlepool->get(100, 50, "gaozhou");
         obj1->print();
-        std::cout << singlepool->size() << std::endl;
+        std::cout << "singlepool->size() : " << singlepool->size() << std::endl;   //2
+        auto obj2 = singlepool->get(50, 25, "zhaochong");
+        obj2->print();
+        std::cout << "singlepool->size() : " << singlepool->size() << std::endl;   //1
+        auto obj3 = singlepool->get(50, 25, "zhaochong");
+        obj3->print();
+        std::cout << "singlepool->size() : " << singlepool->size() << std::endl;    //0
+        auto obj4 = singlepool->get(50, 25, "zhaochong");
+        obj4->print();
+        std::cout << "singlepool->size() : " << singlepool->size() << std::endl;    //2
     }
-    std::cout << singlepool->size() << std::endl;
-
-    auto obj2 = singlepool->get(50, 25, "zhaochong");
-    obj2->print();
+    std::cout << "singlepool->size() : " << singlepool->size() << std::endl;    //6
+    
+    auto obj5 = singlepool->get(50, 49, "zhangchong");
+    obj5->print();
+    std::cout << "singlepool->size() : " << singlepool->size() << std::endl;
+    }
     return 0;
 }
